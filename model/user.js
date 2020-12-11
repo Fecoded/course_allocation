@@ -1,7 +1,19 @@
 const mongoose = require("mongoose");
 
 const UserSchema = mongoose.Schema({
-  name: {
+  fullname: {
+    type: String,
+    required: true
+  },
+  area_of_specialization: {
+    type: String,
+    required: true
+  },
+  grade_level: {
+    type: String,
+    required: true
+  },
+  years_of_experience: {
     type: String,
     required: true
   },
