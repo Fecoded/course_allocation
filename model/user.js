@@ -3,34 +3,38 @@ const mongoose = require("mongoose");
 const UserSchema = mongoose.Schema({
   fullname: {
     type: String,
-    required: true
+    required: true,
   },
   area_of_specialization: {
     type: String,
-    required: true
+    required: true,
   },
   grade_level: {
     type: String,
-    required: true
+    required: true,
   },
   years_of_experience: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     required: [true, "Please enter a valid email"],
-    unique: true
+    unique: true,
+  },
+  course_allocated: {
+    type: String,
+    default: "None",
   },
   password: {
     type: String,
     required: [true, "Please enter a password"],
-    minlength: [6, "Please enter a password with 6 or more characters"]
+    minlength: [6, "Please enter a password with 6 or more characters"],
   },
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("user", UserSchema);

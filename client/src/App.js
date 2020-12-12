@@ -1,6 +1,15 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import "./App.css";
+
+import { createStructuredSelector } from "reselect";
+import { selectCurrentAdmin } from "./redux/admin/admin.selectors";
 
 import Profile from "./components/profile";
 import Login from "./components/auth/login";
@@ -10,18 +19,39 @@ import Register from "./components/auth/register";
 import AdminProfile from "./components/admin/profile";
 import AdminLogin from "./components/admin/login";
 
-function App() {
+import PrivateRouteUser from "./components/routing/PrivateRouteUser";
+import PrivateRouteAdmin from "./components/routing/PrivateRouteAdmin";
+
+function App({ user: { user, isAuthenticated } }) {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Profile} />
+        <PrivateRouteUser exact path="/" component={Profile} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/admin/profile" component={AdminProfile} />
-        <Route exact path="/admin/login" component={AdminLogin} />
+        <PrivateRouteAdmin
+          exact
+          path="/admin/profile"
+          component={AdminProfile}
+        />
+        <Route
+          exact
+          path="/admin/login"
+          render={() =>
+            isAuthenticated && user ? (
+              <Redirect to="/admin/profile" />
+            ) : (
+              <AdminLogin />
+            )
+          }
+        />
       </Switch>
     </Router>
   );
 }
 
-export default App;
+const mapStateToProps = createStructuredSelector({
+  user: selectCurrentAdmin,
+});
+
+export default connect(mapStateToProps)(App);

@@ -1,7 +1,10 @@
 import React, { Fragment } from "react";
+import { createStructuredSelector } from "reselect";
+import { connect } from "react-redux";
+import { selectCurrentUser } from "../../redux/user/user.selector";
 import Navbar from "../navbar";
 
-const Profile = () => {
+const Profile = ({ user: { user } }) => {
   return (
     <Fragment>
       <Navbar />
@@ -13,19 +16,21 @@ const Profile = () => {
           <div className="bottom-line w-10"></div>
           <div className="text-size">
             <h4>
-              Full Name: <span>John Doe</span>
+              Full Name: <span>{user && user.fullname}</span>
             </h4>
             <h4>
-              Area Of Specialization: <span>MicroBiology, Biochemistry...</span>
+              Area Of Specialization:{" "}
+              <span>{user && user.area_of_specialization}</span>
             </h4>
             <h4>
-              Rank Or Grade Level: <span>15</span>
+              Rank Or Grade Level: <span>{user && user.grade_level}</span>
             </h4>
             <h4>
-              Years Of Experience : <span>25years</span>
+              Years Of Experience :{" "}
+              <span>{user && user.years_of_experience}</span>
             </h4>
             <h4>
-              Course Allocated: <span>MicroBiology, Biochemistry</span>
+              Course Allocated: <span>{user && user.course_allocated}</span>
             </h4>
           </div>
         </div>
@@ -37,4 +42,8 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+const mapStateToProps = createStructuredSelector({
+  user: selectCurrentUser,
+});
+
+export default connect(mapStateToProps)(Profile);

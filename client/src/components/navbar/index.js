@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { loadUser, logout } from "../../redux/user/user.action";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ loadUser, logout }) => {
+  useEffect(() => {
+    loadUser();
+  }, [loadUser]);
+
   return (
     <nav id="navbar">
       <h1 className="logo">
@@ -14,11 +20,13 @@ const Navbar = () => {
           <Link to="#!">Profile</Link>
         </li>
         <li>
-          <Link to="#!">Logout</Link>
+          <Link to="#!" onClick={() => logout()}>
+            Logout
+          </Link>
         </li>
       </ul>
     </nav>
   );
 };
 
-export default Navbar;
+export default connect(null, { loadUser, logout })(Navbar);

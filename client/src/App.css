@@ -74,6 +74,24 @@ a {
   background: var(--button-hover-color);
 }
 
+.alert {
+  padding: 8px 15px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.alert-success {
+  background-color: rgba(46, 202, 139, 0.9);
+  color: #ffffff;
+  border-color: #2eca8b;
+}
+
+.alert-danger {
+  background-color: rgba(228, 63, 82, 0.9);
+  color: #ffffff;
+  border-color: #e43f52;
+}
+
 /* Padding */
 .p-1 {
   padding: 1rem;
