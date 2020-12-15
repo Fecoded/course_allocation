@@ -13,6 +13,7 @@ const Register = ({ register, user: { isAuthenticated }, setAlert }) => {
   const [fullname, setFullname] = useState("");
   const [area_of_specialization, setAreaOfSpecialization] = useState("");
   const [grade_level, setGradeLevel] = useState("");
+  const [grade, setGrade] = useState("");
   const [years_of_experience, setYearOfExperience] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,27 +61,63 @@ const Register = ({ register, user: { isAuthenticated }, setAlert }) => {
           </div>
           <div className="form-group">
             <label htmlFor="areaofspecialization">Area Of Specialization</label>
-            <input
-              type="text"
+            <select
               name="area_of_specialization"
               id="areaofspecialization"
-              placeholder="Area Of Specialization"
               value={area_of_specialization}
               onChange={(e) => setAreaOfSpecialization(e.target.value)}
-              required
-            />
+            >
+              <option>Select</option>
+              <option value="Computer Hardware">Computer Hardware</option>
+              <option value="Artificial Intelligent">
+                Artificial Intelligent
+              </option>
+              <option value="Theoretical Computing">
+                Theoretical Computing
+              </option>
+              <option value="Software Engineering">Software Engineering</option>
+              <option value="Computer System">Computer System</option>
+              <option value="Database Management">Database Management</option>
+              <option value="Computer Programming">Computer Programming</option>
+              <option value="Internet Programming">Internet Programming</option>
+              <option value="Othere">Other</option>
+            </select>
           </div>
           <div className="form-group">
-            <label htmlFor="rankorgradelevel">Rank or Grade Level</label>
-            <input
-              type="text"
+            <label htmlFor="rankorgradelevel">Rank</label>
+            <select
               name="grade_level"
               id="rankorgradelevel"
-              placeholder="Rank Or Grade Level"
               value={grade_level}
               onChange={(e) => setGradeLevel(e.target.value)}
-              required
-            />
+            >
+              <option>Select</option>
+              <option value="Graduate Assistant">Graduate Assistant</option>
+              <option value="Assistant Lecturer">Assistant Lecturer</option>
+              <option value="Lecturer 2">Lecturer 2</option>
+              <option value="Lecturer 1">Lecturer 1</option>
+              <option value="Senior Lecturer">Senior Lecturer</option>
+              <option value="Associate Professor">Associate Professor</option>
+              <option value="Professor">Professor</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="grade">Grade</label>
+            <select
+              name="grade"
+              id="rankorgradelevel"
+              value={grade}
+              onChange={(e) => setGrade(e.target.value)}
+            >
+              <option>Select</option>
+              <option value="Graduate Assistant">Graduate Assistant</option>
+              <option value="Assistant Lecturer">Assistant Lecturer</option>
+              <option value="Lecturer 2">Lecturer 2</option>
+              <option value="Lecturer 1">Lecturer 1</option>
+              <option value="Senior Lecturer">Senior Lecturer</option>
+              <option value="Associate Professor">Associate Professor</option>
+              <option value="Professor">Professor</option>
+            </select>
           </div>
           <div className="form-group">
             <label htmlFor="yearsofexperience">Years Of Experience</label>

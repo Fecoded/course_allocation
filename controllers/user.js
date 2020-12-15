@@ -12,8 +12,9 @@ exports.postUser = async (req, res, next) => {
       years_of_experience,
       area_of_specialization,
       grade_level,
+      grade,
       email,
-      password
+      password,
     } = req.body;
 
     let user = await User.findOne({ email });
@@ -27,8 +28,9 @@ exports.postUser = async (req, res, next) => {
       years_of_experience,
       area_of_specialization,
       grade_level,
+      grade,
       email,
-      password
+      password,
     });
     const salt = await bcrypt.genSalt(10);
 
@@ -46,22 +48,22 @@ exports.postUser = async (req, res, next) => {
         if (err) throw err;
         return res.status(201).json({
           success: true,
-          data: token
+          data: token,
         });
       }
     );
   } catch (err) {
     if (err.name === "ValidationError") {
-      const msgs = Object.values(err.errors).map(val => val.message);
+      const msgs = Object.values(err.errors).map((val) => val.message);
       return res.status(400).json({
         success: false,
-        error: msgs
+        error: msgs,
       });
     } else {
       console.log(err);
       return res.status(500).json({
         success: false,
-        error: "Server Error"
+        error: "Server Error",
       });
     }
   }

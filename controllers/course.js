@@ -12,7 +12,7 @@ exports.getCourses = async (req, res, next) => {
     console.log(err);
     return res.status(500).json({
       success: false,
-      error: "Server Error"
+      error: "Server Error",
     });
   }
 };
@@ -20,43 +20,29 @@ exports.getCourses = async (req, res, next) => {
 // @desc    CREATE COURSE
 // @route   POST /api/course
 // @access  Private
-exports.updateWallet = async (req, res, next) => {
+exports.postCourse = async (req, res, next) => {
   const { course_name, course_unit, level, grade } = req.body;
 
   const coursefields = {};
-  if (amount) coursefields.amount = amount;
-  if (user) coursefields.user = user;
+  if (course_name) coursefields.course_name = course_name;
+  if (course_unit) coursefields.course_unit = course_unit;
+  if (level) coursefields.level = level;
+  if (grade) coursefields.grade = grade;
 
   try {
-    let wallet = await WalletFunded.findOne({ user });
+    let course = await Course.findOne({ course_name });
 
-    if (type === "Investment") {
-      coursefields.amount = wallet.amount + +amount;
-      wallet = await WalletFunded.findOneAndUpdate(
-        { user: user },
-        { $set: coursefields },
-        { new: true }
-      );
-      return res.status(200).json({ success: true, data: wallet });
+    if (course) {
+      return res.status(400).json({ msg: "Course already exist" });
     }
 
-    if (type === "Debit" || type === "Credit") {
-      walletfields.amount = wallet.amount - +amount;
-      wallet = await WalletFunded.findOneAndUpdate(
-        { user: user },
-        { $set: walletfields },
-        { new: true }
-      );
-      return res.status(200).json({ success: true, data: wallet });
-    }
-
-    wallet = await WalletFunded.create(walletfields);
-    return res.status(201).json({ success: true, data: wallet });
+    course = await Course.create(coursefields);
+    return res.status(200).json({ success: true, data: course });
   } catch (err) {
     console.log(err);
     return res.status(500).json({
       success: false,
-      error: "Server Error"
+      error: "Server Error",
     });
   }
 };

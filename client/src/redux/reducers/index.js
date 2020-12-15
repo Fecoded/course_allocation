@@ -4,6 +4,7 @@ import user from "../user/user.reducer";
 import modal from "../modal/modal.reducer";
 import alert from "../alert/alert.reducer";
 import profile from "../profile/profile.reducer";
+import course from "../course/course.reducer";
 
 const rootReducer = combineReducers({
   alert,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   admin,
   user,
   profile,
+  course,
 });
 
 export default rootReducer;

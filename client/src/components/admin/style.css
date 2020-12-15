@@ -120,7 +120,8 @@
   color: #666;
 }
 
-.form-wrap .form-group input {
+.form-wrap .form-group input,
+.form-wrap .form-group select {
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;

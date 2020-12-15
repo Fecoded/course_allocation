@@ -3,9 +3,6 @@ const router = express.Router();
 const { getCourses, postCourse } = require("../controllers/course");
 const auth = require("../middleware/auth");
 
-router
-  .route("/course")
-  .get(auth, getCourses)
-  .post(postCourse);
+router.route("/").get(auth, getCourses).post(auth, postCourse);
 
 module.exports = router;

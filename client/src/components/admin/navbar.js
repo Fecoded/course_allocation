@@ -1,7 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+import { logout } from "../../redux/admin/admin.action";
+
+const Navbar = ({ logout }) => {
   return (
     <nav id="navbar">
       <h1 className="logo">
@@ -11,11 +14,13 @@ const Navbar = () => {
       </h1>
       <ul>
         <li>
-          <Link to="#!">Logout</Link>
+          <Link to="#!" onClick={() => logout()}>
+            Logout
+          </Link>
         </li>
       </ul>
     </nav>
   );
 };
 
-export default Navbar;
+export default connect(null, { logout })(Navbar);
