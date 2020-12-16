@@ -13,7 +13,6 @@ const Register = ({ register, user: { isAuthenticated }, setAlert }) => {
   const [fullname, setFullname] = useState("");
   const [area_of_specialization, setAreaOfSpecialization] = useState("");
   const [grade_level, setGradeLevel] = useState("");
-  const [grade, setGrade] = useState("");
   const [years_of_experience, setYearOfExperience] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -90,24 +89,6 @@ const Register = ({ register, user: { isAuthenticated }, setAlert }) => {
               id="rankorgradelevel"
               value={grade_level}
               onChange={(e) => setGradeLevel(e.target.value)}
-            >
-              <option>Select</option>
-              <option value="Graduate Assistant">Graduate Assistant</option>
-              <option value="Assistant Lecturer">Assistant Lecturer</option>
-              <option value="Lecturer 2">Lecturer 2</option>
-              <option value="Lecturer 1">Lecturer 1</option>
-              <option value="Senior Lecturer">Senior Lecturer</option>
-              <option value="Associate Professor">Associate Professor</option>
-              <option value="Professor">Professor</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="grade">Grade</label>
-            <select
-              name="grade"
-              id="rankorgradelevel"
-              value={grade}
-              onChange={(e) => setGrade(e.target.value)}
             >
               <option>Select</option>
               <option value="Graduate Assistant">Graduate Assistant</option>

@@ -3,24 +3,24 @@ const mongoose = require("mongoose");
 const CourseSchema = mongoose.Schema({
   course_name: {
     type: String,
-    required: true
+    required: true,
   },
   course_unit: {
     type: String,
-    required: true
+    required: true,
   },
   level: {
     type: String,
-    required: true
+    required: true,
   },
-  grade: {
+  rank: {
     type: String,
-    required: true
+    required: true,
   },
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("course", CourseSchema);

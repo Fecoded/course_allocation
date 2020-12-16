@@ -12,7 +12,6 @@ exports.postUser = async (req, res, next) => {
       years_of_experience,
       area_of_specialization,
       grade_level,
-      grade,
       email,
       password,
     } = req.body;
@@ -28,7 +27,6 @@ exports.postUser = async (req, res, next) => {
       years_of_experience,
       area_of_specialization,
       grade_level,
-      grade,
       email,
       password,
     });

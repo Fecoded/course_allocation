@@ -1,14 +1,33 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
 import "./style.css";
 import Navbar from "./navbar";
 import Course from "./course";
+import AllocateCourse from "./allocateCourse";
 
 import { loadAdmin, getUsers } from "../../redux/admin/admin.action";
+import {
+  selectToggleHidden,
+  selectAllocateToggleHidden,
+} from "../../redux/modal/modal.selector";
+import {
+  toggleModalHidden,
+  toggleAllocateModalHidden,
+} from "../../redux/modal/modal.action";
 import { selectUsers } from "../../redux/admin/admin.selectors";
 
-const Profile = ({ loadAdmin, getUsers, users }) => {
+const Profile = ({
+  loadAdmin,
+  getUsers,
+  users,
+  hidden,
+  allocatehidden,
+  toggleModalHidden,
+  toggleAllocateModalHidden,
+}) => {
+  const [lecturer, setLecturer] = useState("");
+
   useEffect(() => {
     loadAdmin();
     getUsers();
@@ -29,9 +48,9 @@ const Profile = ({ loadAdmin, getUsers, users }) => {
               </h1>
               <p>Create and Allocate Courses</p>
             </div>
-            <a href="#course-modal" className="btn-block">
+            <button onClick={() => toggleModalHidden()} className="btn-block">
               Add Course
-            </a>
+            </button>
           </div>
           {/* <!-- <div className="bottom-line w-52"></div> */}
 
@@ -59,7 +78,14 @@ const Profile = ({ loadAdmin, getUsers, users }) => {
                       <td>{user.years_of_experience}</td>
                       <td>{user.course_allocated}</td>
                       <td>
-                        <button type="submit" className="btn">
+                        <button
+                          type="submit"
+                          className="btn"
+                          onClick={() => {
+                            setLecturer(user);
+                            toggleAllocateModalHidden();
+                          }}
+                        >
                           Allocate
                         </button>
                       </td>
@@ -75,13 +101,21 @@ const Profile = ({ loadAdmin, getUsers, users }) => {
       </section>
 
       {/* Modal */}
-      <Course />
+      <Course hidden={hidden} />
+      <AllocateCourse allocatehidden={allocatehidden} lecturer={lecturer} />
     </Fragment>
   );
 };
 
 const mapStateToProps = createStructuredSelector({
   users: selectUsers,
+  hidden: selectToggleHidden,
+  allocatehidden: selectAllocateToggleHidden,
 });
 
-export default connect(mapStateToProps, { loadAdmin, getUsers })(Profile);
+export default connect(mapStateToProps, {
+  loadAdmin,
+  getUsers,
+  toggleModalHidden,
+  toggleAllocateModalHidden,
+})(Profile);

@@ -13,10 +13,6 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  grade: {
-    type: String,
-    required: true,
-  },
   years_of_experience: {
     type: String,
     required: true,

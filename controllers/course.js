@@ -21,13 +21,13 @@ exports.getCourses = async (req, res, next) => {
 // @route   POST /api/course
 // @access  Private
 exports.postCourse = async (req, res, next) => {
-  const { course_name, course_unit, level, grade } = req.body;
+  const { course_name, course_unit, level, rank } = req.body;
 
   const coursefields = {};
   if (course_name) coursefields.course_name = course_name;
   if (course_unit) coursefields.course_unit = course_unit;
   if (level) coursefields.level = level;
-  if (grade) coursefields.grade = grade;
+  if (rank) coursefields.rank = rank;
 
   try {
     let course = await Course.findOne({ course_name });

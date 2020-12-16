@@ -2,6 +2,7 @@ import { GET_COURSES, CREATE_COURSE, COURSE_ERROR } from "./course.types";
 import setAuthToken from "../../utils/setAuthToken";
 import axios from "axios";
 import { setAlert } from "../alert/alert.action";
+import { toggleModalHidden } from "../modal/modal.action";
 
 export const getCourses = () => async (dispatch) => {
   if (localStorage.token) {
@@ -26,10 +27,10 @@ export const createCourse = ({
   course_name,
   course_unit,
   level,
-  grade,
+  rank,
   setCourseName,
   setCourseUnit,
-  setGrade,
+  setRank,
   setLevel,
 }) => async (dispatch) => {
   if (localStorage.token) {
@@ -42,7 +43,7 @@ export const createCourse = ({
     },
   };
 
-  const body = JSON.stringify({ course_name, course_unit, level, grade });
+  const body = JSON.stringify({ course_name, course_unit, level, rank });
 
   try {
     const res = await axios.post("/api/course", body, config);
@@ -54,8 +55,12 @@ export const createCourse = ({
 
     setCourseName("");
     setCourseUnit("");
-    setGrade("");
+    setRank("");
     setLevel("");
+    dispatch(setAlert("Course was created successfully", "success"));
+    setTimeout(() => {
+      dispatch(toggleModalHidden());
+    }, 3000);
   } catch (err) {
     dispatch({ type: COURSE_ERROR, payload: err.response.data });
 
