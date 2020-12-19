@@ -128,19 +128,24 @@ const AllocateCourse = ({
                 required
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="course">Courses</label>
-              <select
-                name="course"
-                value={course_allocated}
-                onChange={(e) => setCourseAllocated(e.target.value)}
-              >
-                <option value="">Select</option>
-                {courses.map((course) => (
-                  <option key={course._id}>{course.course_name}</option>
-                ))}
-              </select>
-            </div>
+            {lecturer && (
+              <div className="form-group">
+                <label htmlFor="course">Courses</label>
+                <select
+                  name="course"
+                  value={course_allocated}
+                  onChange={(e) => setCourseAllocated(e.target.value)}
+                >
+                  <option value="">Select</option>
+                  {courses.map(
+                    (course) =>
+                      lecturer.grade_level === course.rank && (
+                        <option key={course._id}>{course.course_name}</option>
+                      )
+                  )}
+                </select>
+              </div>
+            )}
 
             <button type="submit" id="closeModal" className="btn my-1">
               Allocate
