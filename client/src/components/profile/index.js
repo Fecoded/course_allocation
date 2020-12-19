@@ -34,9 +34,9 @@ const Profile = ({ user: { user } }) => {
             </h4>
           </div>
         </div>
-        <button type="submit" className="user-btn">
+        {/* <button type="submit" className="user-btn">
           Click here to Download
-        </button>
+        </button> */}
       </section>
     </Fragment>
   );

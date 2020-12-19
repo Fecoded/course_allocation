@@ -2,6 +2,7 @@ import {
   ADMIN_LOADED,
   GET_USERS,
   LOGIN_SUCCESS,
+  ALLOCATE_COURSE,
   LOGIN_FAIL,
   AUTH_ERROR,
   LOGOUT,
@@ -13,6 +14,7 @@ const initialState = {
   loading: true,
   user: null,
   users: [],
+  error: {},
 };
 
 export default (state = initialState, action) => {
@@ -39,6 +41,14 @@ export default (state = initialState, action) => {
         isAuthenticated: true,
         loading: false,
       };
+    case ALLOCATE_COURSE:
+      return {
+        ...state,
+        users: state.users.map((user) =>
+          user._id === payload._id ? payload : user
+        ),
+        loading: false,
+      };
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT:
@@ -49,6 +59,7 @@ export default (state = initialState, action) => {
         user: null,
         isAuthenticated: false,
         loading: false,
+        error: payload,
       };
     default:
       return state;

@@ -15,7 +15,7 @@ exports.getUserAuth = async (req, res, next) => {
     console.log(err);
     return res.status(500).json({
       success: false,
-      error: "Server Error"
+      error: "Server Error",
     });
   }
 };
@@ -32,7 +32,7 @@ exports.getUsers = async (req, res, next) => {
     console.log(err);
     return res.status(500).json({
       success: false,
-      error: "Server Error"
+      error: "Server Error",
     });
   }
 };
@@ -66,21 +66,21 @@ exports.postUserAuth = async (req, res, next) => {
         if (err) throw err;
         return res.status(201).json({
           success: true,
-          data: token
+          data: token,
         });
       }
     );
   } catch (err) {
     if (err.name === "ValidationError") {
-      const msgs = Object.values(err.errors).map(val => val.message);
+      const msgs = Object.values(err.errors).map((val) => val.message);
       return res.status(400).json({
         success: false,
-        error: msgs
+        error: msgs,
       });
     } else {
       return res.status(500).json({
         success: false,
-        error: "Server Error"
+        error: "Server Error",
       });
     }
   }
@@ -98,7 +98,7 @@ exports.getAdminAuth = async (req, res, next) => {
     console.log(err);
     return res.status(500).json({
       success: false,
-      error: "Server Error"
+      error: "Server Error",
     });
   }
 };
@@ -132,23 +132,51 @@ exports.postAdminAuth = async (req, res, next) => {
         if (err) throw err;
         return res.status(201).json({
           success: true,
-          data: token
+          data: token,
         });
       }
     );
   } catch (err) {
     if (err.name === "ValidationError") {
-      const msgs = Object.values(err.errors).map(val => val.message);
+      const msgs = Object.values(err.errors).map((val) => val.message);
       return res.status(400).json({
         success: false,
-        error: msgs
+        error: msgs,
       });
     } else {
       return res.status(500).json({
         success: false,
-        error: "Server Error"
+        error: "Server Error",
       });
     }
   }
-  next();
+};
+
+//@desc     Allocate Course
+//@route    PUT /api/auth/allocate/:id
+//@access   Private
+exports.allocateCourse = async (req, res, next) => {
+  const { course_allocated } = req.body;
+
+  try {
+    let user = await User.findById(req.params.id);
+
+    const newExp = {
+      course_allocated,
+    };
+
+    user = await User.findByIdAndUpdate(
+      req.params.id,
+      { $set: newExp },
+      { new: true }
+    );
+
+    return res.status(200).json({ success: true, data: user });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
 };

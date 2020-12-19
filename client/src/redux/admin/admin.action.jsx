@@ -2,6 +2,7 @@ import {
   ADMIN_LOADED,
   GET_USERS,
   LOGIN_SUCCESS,
+  ALLOCATE_COURSE,
   LOGIN_FAIL,
   AUTH_ERROR,
   LOGOUT,
@@ -9,6 +10,7 @@ import {
 import axios from "axios";
 import { setAlert } from "../alert/alert.action";
 import setAuthToken from "../../utils/setAuthToken";
+import { toggleAllocateModalHidden } from "../modal/modal.action";
 
 // LOAD ADMIN
 export const loadAdmin = () => async (dispatch) => {
@@ -75,6 +77,39 @@ export const login = ({ email, password }) => async (dispatch) => {
       type: LOGIN_FAIL,
       payload: errors,
     });
+  }
+};
+
+export const allocateCourse = (formData) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const res = await axios.put(
+      `/api/auth/allocate/${formData.id}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: ALLOCATE_COURSE,
+      payload: res.data.data,
+    });
+
+    dispatch(toggleAllocateModalHidden());
+  } catch (err) {
+    dispatch({ type: AUTH_ERROR, payload: err.response.data });
+
+    const error = err.response.data.msg;
+
+    dispatch(setAlert(error, "danger"));
   }
 };
 

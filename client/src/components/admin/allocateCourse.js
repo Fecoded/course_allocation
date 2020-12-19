@@ -1,20 +1,39 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
-import { createCourse } from "../../redux/course/course.action";
+import { getCourses } from "../../redux/course/course.action";
+import { allocateCourse } from "../../redux/admin/admin.action";
+import { selectCourses } from "../../redux/course/course.selector";
 import { setAlert } from "../../redux/alert/alert.action";
 
 import Alert from "../alert/alert.component";
 import Modal from "../modal";
 
-const AllocateCourse = ({ createCourse, lecturer, allocatehidden }) => {
+const AllocateCourse = ({
+  allocateCourse,
+  lecturer,
+  allocatehidden,
+  courses,
+  getCourses,
+  setAlert,
+}) => {
   const [fullname, setFullname] = useState("");
   const [area_of_specialization, setAreaOfSpecialization] = useState("");
   const [grade_level, setGradeLevel] = useState("");
   const [years_of_experience, setYearOfExperience] = useState("");
+  const [course_allocated, setCourseAllocated] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (course_allocated !== "") {
+      allocateCourse({
+        id: lecturer._id,
+        course_allocated,
+      });
+    } else {
+      setAlert("Please select a course from the list", "danger");
+    }
   };
 
   useEffect(() => {
@@ -24,13 +43,14 @@ const AllocateCourse = ({ createCourse, lecturer, allocatehidden }) => {
       setGradeLevel(lecturer.grade_level);
       setYearOfExperience(lecturer.years_of_experience);
     }
-  }, [lecturer]);
+    getCourses();
+  }, [lecturer, getCourses]);
 
   return (
     <Fragment>
       {allocatehidden ? null : (
         <Modal>
-          <h2 className="text-center py-1">Add Course</h2>
+          <h2 className="text-center py-1">Allocate Course</h2>
           <Alert />
           <form onSubmit={onSubmit}>
             <div className="form-group">
@@ -45,6 +65,7 @@ const AllocateCourse = ({ createCourse, lecturer, allocatehidden }) => {
                 required
               />
             </div>
+
             <div className="form-group">
               <label htmlFor="areaofspecialization">
                 Area Of Specialization
@@ -74,7 +95,7 @@ const AllocateCourse = ({ createCourse, lecturer, allocatehidden }) => {
                 <option value="Internet Programming">
                   Internet Programming
                 </option>
-                <option value="Othere">Other</option>
+                <option value="Others">Others</option>
               </select>
             </div>
             <div className="form-group">
@@ -107,9 +128,22 @@ const AllocateCourse = ({ createCourse, lecturer, allocatehidden }) => {
                 required
               />
             </div>
+            <div className="form-group">
+              <label htmlFor="course">Courses</label>
+              <select
+                name="course"
+                value={course_allocated}
+                onChange={(e) => setCourseAllocated(e.target.value)}
+              >
+                <option value="">Select</option>
+                {courses.map((course) => (
+                  <option key={course._id}>{course.course_name}</option>
+                ))}
+              </select>
+            </div>
 
             <button type="submit" id="closeModal" className="btn my-1">
-              Create
+              Allocate
             </button>
           </form>
         </Modal>
@@ -118,4 +152,12 @@ const AllocateCourse = ({ createCourse, lecturer, allocatehidden }) => {
   );
 };
 
-export default connect(null, { createCourse, setAlert })(AllocateCourse);
+const mapStateToProps = createStructuredSelector({
+  courses: selectCourses,
+});
+
+export default connect(mapStateToProps, {
+  allocateCourse,
+  setAlert,
+  getCourses,
+})(AllocateCourse);
