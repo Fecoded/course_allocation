@@ -180,3 +180,30 @@ exports.allocateCourse = async (req, res, next) => {
     });
   }
 };
+
+//@desc     DELETE USER
+//@route    DELETE /api/auth/:id
+//@access   Private
+exports.deleteUser = async (req, res, next) => {
+  try {
+    let user = await User.findById(req.params.id);
+
+    if (!user) {
+      res
+        .status(400)
+        .json({ msg: `User with this ${req.params.id} Id does not exist` });
+    }
+
+    await User.findByIdAndRemove(req.params.id);
+
+    return res
+      .status(200)
+      .json({ success: true, msg: "User was deleted successfully" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};

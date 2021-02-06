@@ -6,6 +6,7 @@ import {
   LOGIN_FAIL,
   AUTH_ERROR,
   LOGOUT,
+  DELETE_USER,
 } from "./admin.types";
 import axios from "axios";
 import { setAlert } from "../alert/alert.action";
@@ -110,6 +111,22 @@ export const allocateCourse = (formData) => async (dispatch) => {
     const error = err.response.data.msg;
 
     dispatch(setAlert(error, "danger"));
+  }
+};
+
+// DELETE USER
+export const deleteUser = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`/api/auth/${id}`);
+
+    dispatch({
+      type: DELETE_USER,
+      payload: id,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
   }
 };
 

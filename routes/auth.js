@@ -7,12 +7,14 @@ const {
   postAdminAuth,
   getUsers,
   allocateCourse,
+  deleteUser,
 } = require("../controllers/auth");
 const auth = require("../middleware/auth");
 
 router.route("/user").get(auth, getUserAuth).post(postUserAuth);
 router.route("/admin").get(auth, getAdminAuth).post(postAdminAuth);
 router.route("/users").get(auth, getUsers);
+router.route("/:id").delete(auth, deleteUser);
 router.route("/allocate/:id").put(auth, allocateCourse);
 
 module.exports = router;

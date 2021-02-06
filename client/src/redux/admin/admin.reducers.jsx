@@ -3,6 +3,7 @@ import {
   GET_USERS,
   LOGIN_SUCCESS,
   ALLOCATE_COURSE,
+  DELETE_USER,
   LOGIN_FAIL,
   AUTH_ERROR,
   LOGOUT,
@@ -47,6 +48,12 @@ export default (state = initialState, action) => {
         users: state.users.map((user) =>
           user._id === payload._id ? payload : user
         ),
+        loading: false,
+      };
+    case DELETE_USER:
+      return {
+        ...state,
+        users: state.users.filter((user) => user._id !== payload),
         loading: false,
       };
     case AUTH_ERROR:
