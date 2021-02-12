@@ -6,7 +6,11 @@ import Navbar from "./navbar";
 import Course from "./course";
 import AllocateCourse from "./allocateCourse";
 
-import { loadAdmin, getUsers } from "../../redux/admin/admin.action";
+import {
+  loadAdmin,
+  getUsers,
+  deleteUser,
+} from "../../redux/admin/admin.action";
 import {
   selectToggleHidden,
   selectAllocateToggleHidden,
@@ -25,6 +29,7 @@ const Profile = ({
   allocatehidden,
   toggleModalHidden,
   toggleAllocateModalHidden,
+  deleteUser,
 }) => {
   const [lecturer, setLecturer] = useState("");
 
@@ -65,7 +70,7 @@ const Profile = ({
                   <th>Years Of Experience</th>
                   <th>Course Allocated</th>
                   <th>Allocation</th>
-                  {/* <th>Operation</th> */}
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -89,9 +94,12 @@ const Profile = ({
                           Allocate
                         </button>
                       </td>
-                      {/* <td>
-                        <i className="fas fa-trash-alt fa-1x ml-1"></i>
-                      </td> */}
+                      <td>
+                        <i
+                          className="fas fa-trash-alt fa-1x ml-1"
+                          onClick={() => deleteUser(user._id)}
+                        ></i>
+                      </td>
                     </tr>
                   ))}
               </tbody>
@@ -118,4 +126,5 @@ export default connect(mapStateToProps, {
   getUsers,
   toggleModalHidden,
   toggleAllocateModalHidden,
+  deleteUser,
 })(Profile);
