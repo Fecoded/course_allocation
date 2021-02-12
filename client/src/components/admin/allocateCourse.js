@@ -29,7 +29,7 @@ const AllocateCourse = ({
     if (course_allocated !== "") {
       allocateCourse({
         id: lecturer._id,
-        course_allocated,
+        course_allocated: lecturer.course_allocated + "," + course_allocated,
       });
     } else {
       setAlert("Please select a course from the list", "danger");
